@@ -3,6 +3,12 @@ from bs4 import BeautifulSoup
 import json
 from datetime import datetime
 import pytz
+import re
+
+def clean_rate(rate_text):
+    # Remove $, =, whitespace, newlines and take only the first number
+    cleaned = re.sub(r'[^\d.]', '', rate_text.split()[0])
+    return cleaned
 
 def get_bank_rate(url, bank_name):
     headers = {
@@ -22,14 +28,20 @@ def get_bank_rate(url, bank_name):
             if len(rows) >= 2:  # At least header and one data row
                 cols = rows[1].find_all('td')  # Get first data row
                 if len(cols) >= 3:
-                    buy_text = cols[1].get_text().strip().replace('$', '').replace('=', '').strip()
-                    sell_text = cols[2].get_text().strip().replace('$', '').replace('=', '').strip()
+                    buy_text = cols[1].get_text().strip()
+                    sell_text = cols[2].get_text().strip()
                     
-                    print(f"Found rates for {bank_name}: Buy='{buy_text}', Sell='{sell_text}'")
+                    print(f"Raw rates for {bank_name}: Buy='{buy_text}', Sell='{sell_text}'")
+                    
+                    # Clean the rate texts
+                    buy_clean = clean_rate(buy_text)
+                    sell_clean = clean_rate(sell_text)
+                    
+                    print(f"Cleaned rates for {bank_name}: Buy='{buy_clean}', Sell='{sell_clean}'")
                     
                     try:
-                        buy = float(buy_text)
-                        sell = float(sell_text)
+                        buy = float(buy_clean)
+                        sell = float(sell_clean)
                         if buy > 0 and sell > 0:
                             return {
                                 "bank": bank_name,
