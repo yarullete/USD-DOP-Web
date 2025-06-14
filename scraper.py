@@ -32,8 +32,10 @@ def scrape_rates():
         # Find the table after the "Precio Dólar en bancos y agentes de cambio de Santo Domingo" heading
         heading = soup.find('h2', string='Precio Dólar en bancos y agentes de cambio de Santo Domingo')
         if heading:
+            print("Found main heading")
             table = heading.find_next('table')
             if table:
+                print("Found rates table")
                 rows = table.find_all('tr')[1:]  # Skip header row
                 print(f"Processing {len(rows)} rows in main table")
                 
@@ -41,34 +43,42 @@ def scrape_rates():
                     cols = row.find_all('td')
                     if len(cols) >= 3:
                         # Get bank name from the first column
-                        bank_text = cols[0].get_text().strip()
-                        # Extract bank name from the text (it's in the format "Dólar Banco Name")
-                        if "Dólar" in bank_text:
-                            bank = bank_text.split("Dólar", 1)[1].strip()
-                            print(f"Found bank: '{bank}'")
+                        first_col = cols[0]
+                        print(f"First column HTML: {first_col}")
+                        
+                        # Try to get bank name from the link text
+                        bank_link = first_col.find('a')
+                        if bank_link:
+                            bank_text = bank_link.get_text().strip()
+                            print(f"Found bank link text: '{bank_text}'")
                             
-                            # Only process if it's one of our target banks
-                            if bank in target_banks:
-                                # Get buy and sell rates
-                                buy_text = cols[1].get_text().strip().replace('$', '').replace('=', '').strip()
-                                sell_text = cols[2].get_text().strip().replace('$', '').replace('=', '').strip()
-                                print(f"Rates for {bank}: Buy='{buy_text}', Sell='{sell_text}'")
+                            # Extract bank name from the text (it's in the format "Dólar Banco Name")
+                            if "Dólar" in bank_text:
+                                bank = bank_text.split("Dólar", 1)[1].strip()
+                                print(f"Extracted bank name: '{bank}'")
                                 
-                                # Only add if both buy and sell rates are present and valid
-                                if buy_text and sell_text and buy_text != '0.00' and sell_text != '0.00':
-                                    try:
-                                        buy = float(buy_text)
-                                        sell = float(sell_text)
-                                        if buy > 0 and sell > 0:  # Additional validation
-                                            rates.append({
-                                                "bank": bank,
-                                                "buy": buy,
-                                                "sell": sell
-                                            })
-                                            print(f"Added rates for {bank}")
-                                    except ValueError as e:
-                                        print(f"Error converting rates for {bank}: {str(e)}")
-                                        continue
+                                # Only process if it's one of our target banks
+                                if bank in target_banks:
+                                    # Get buy and sell rates
+                                    buy_text = cols[1].get_text().strip().replace('$', '').replace('=', '').strip()
+                                    sell_text = cols[2].get_text().strip().replace('$', '').replace('=', '').strip()
+                                    print(f"Rates for {bank}: Buy='{buy_text}', Sell='{sell_text}'")
+                                    
+                                    # Only add if both buy and sell rates are present and valid
+                                    if buy_text and sell_text and buy_text != '0.00' and sell_text != '0.00':
+                                        try:
+                                            buy = float(buy_text)
+                                            sell = float(sell_text)
+                                            if buy > 0 and sell > 0:  # Additional validation
+                                                rates.append({
+                                                    "bank": bank,
+                                                    "buy": buy,
+                                                    "sell": sell
+                                                })
+                                                print(f"Added rates for {bank}")
+                                        except ValueError as e:
+                                            print(f"Error converting rates for {bank}: {str(e)}")
+                                            continue
             else:
                 print("Could not find the rates table after the heading")
         else:
@@ -100,11 +110,13 @@ def scrape_rates():
             print("Available banks found:")
             if heading and heading.find_next('table'):
                 for row in heading.find_next('table').find_all('tr')[1:]:
-                    bank_text = row.find('td').get_text().strip()
-                    if "Dólar" in bank_text:
-                        bank = bank_text.split("Dólar", 1)[1].strip()
-                        if bank:
-                            print(f"- {bank}")
+                    bank_link = row.find('td').find('a')
+                    if bank_link:
+                        bank_text = bank_link.get_text().strip()
+                        if "Dólar" in bank_text:
+                            bank = bank_text.split("Dólar", 1)[1].strip()
+                            if bank:
+                                print(f"- {bank}")
         
     except Exception as e:
         print(f"Error scraping rates: {str(e)}")
