@@ -4,6 +4,7 @@ import json
 from datetime import datetime
 import pytz
 import re
+import os
 
 def clean_rate(rate_text):
     # Remove $, =, whitespace, newlines and take only the first number
@@ -106,16 +107,30 @@ def scrape_rates():
     }
     
     # Write to rates.json
-    with open('rates.json', 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+    try:
+        print(f"Writing rates to rates.json...")
+        print(f"Current directory: {os.getcwd()}")
+        print(f"Directory contents: {os.listdir('.')}")
         
-    print(f"Successfully updated rates. Found {len(rates)} banks.")
-    if len(rates) == 0:
-        print("WARNING: No rates were found!")
-    else:
-        print("Updated rates for:")
-        for rate in rates:
-            print(f"- {rate['bank']}: Buy ${rate['buy']:.2f}, Sell ${rate['sell']:.2f}")
+        with open('rates.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+            
+        # Verify the file was written correctly
+        with open('rates.json', 'r', encoding='utf-8') as f:
+            saved_data = json.load(f)
+            print(f"Verified saved data: {json.dumps(saved_data, indent=2)}")
+            
+        print(f"Successfully updated rates. Found {len(rates)} banks.")
+        if len(rates) == 0:
+            print("WARNING: No rates were found!")
+        else:
+            print("Updated rates for:")
+            for rate in rates:
+                print(f"- {rate['bank']}: Buy ${rate['buy']:.2f}, Sell ${rate['sell']:.2f}")
+                
+    except Exception as e:
+        print(f"Error writing rates.json: {str(e)}")
+        raise
 
 if __name__ == "__main__":
     scrape_rates() 
