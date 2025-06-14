@@ -41,9 +41,10 @@ def scrape_rates():
                     cols = row.find_all('td')
                     if len(cols) >= 3:
                         # Get bank name from the first column
-                        bank_link = cols[0].find('a')
-                        if bank_link:
-                            bank = bank_link.get_text().strip()
+                        bank_text = cols[0].get_text().strip()
+                        # Extract bank name from the text (it's in the format "Dólar Banco Name")
+                        if "Dólar" in bank_text:
+                            bank = bank_text.split("Dólar", 1)[1].strip()
                             print(f"Found bank: '{bank}'")
                             
                             # Only process if it's one of our target banks
@@ -99,9 +100,9 @@ def scrape_rates():
             print("Available banks found:")
             if heading and heading.find_next('table'):
                 for row in heading.find_next('table').find_all('tr')[1:]:
-                    bank_link = row.find('td').find('a')
-                    if bank_link:
-                        bank = bank_link.get_text().strip()
+                    bank_text = row.find('td').get_text().strip()
+                    if "Dólar" in bank_text:
+                        bank = bank_text.split("Dólar", 1)[1].strip()
                         if bank:
                             print(f"- {bank}")
         
