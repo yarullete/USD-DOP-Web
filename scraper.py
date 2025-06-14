@@ -29,51 +29,53 @@ def scrape_rates():
         rates = []
         print("Looking for rates table...")
         
-        # Find all tables with class 'cotizaciones'
-        tables = soup.find_all('table', class_='cotizaciones')
-        print(f"Found {len(tables)} tables with class 'cotizaciones'")
-        
-        for table in tables:
-            rows = table.find_all('tr')
-            print(f"Processing table with {len(rows)} rows")
-            
-            for row in rows:
-                # Skip header rows
-                if row.find('th'):
-                    continue
-                    
-                # Get bank name from the first column
-                bank_cell = row.find('td', class_='colNombre')
-                if bank_cell:
-                    bank = bank_cell.find('span', class_='nombre').get_text().strip()
-                    print(f"Found bank: '{bank}'")
-                    
-                    # Only process if it's one of our target banks
-                    if bank in target_banks:
-                        # Get buy and sell rates
-                        buy_cell = row.find('td', class_='colCompraVenta')
-                        sell_cell = buy_cell.find_next('td', class_='colCompraVenta') if buy_cell else None
-                        
-                        if buy_cell and sell_cell:
-                            buy_text = buy_cell.get_text().strip().replace('$', '').replace('=', '').strip()
-                            sell_text = sell_cell.get_text().strip().replace('$', '').replace('=', '').strip()
-                            print(f"Rates for {bank}: Buy='{buy_text}', Sell='{sell_text}'")
+        # Find the table after the "Precio Dólar en bancos y agentes de cambio de Santo Domingo" heading
+        heading = soup.find('h2', string='Precio Dólar en bancos y agentes de cambio de Santo Domingo')
+        if heading:
+            table = heading.find_next('table')
+            if table:
+                rows = table.find_all('tr')[1:]  # Skip header row
+                print(f"Processing {len(rows)} rows in main table")
+                
+                for row in rows:
+                    cols = row.find_all('td')
+                    if len(cols) >= 3:
+                        # Get bank name from the first column
+                        bank_link = cols[0].find('a')
+                        if bank_link:
+                            bank = bank_link.get_text().strip()
+                            print(f"Found bank: '{bank}'")
                             
-                            # Only add if both buy and sell rates are present and valid
-                            if buy_text and sell_text and buy_text != '0.00' and sell_text != '0.00':
-                                try:
-                                    buy = float(buy_text)
-                                    sell = float(sell_text)
-                                    if buy > 0 and sell > 0:  # Additional validation
-                                        rates.append({
-                                            "bank": bank,
-                                            "buy": buy,
-                                            "sell": sell
-                                        })
-                                        print(f"Added rates for {bank}")
-                                except ValueError as e:
-                                    print(f"Error converting rates for {bank}: {str(e)}")
-                                    continue
+                            # Only process if it's one of our target banks
+                            if bank in target_banks:
+                                # Get buy and sell rates
+                                buy_text = cols[1].get_text().strip().replace('$', '').replace('=', '').strip()
+                                sell_text = cols[2].get_text().strip().replace('$', '').replace('=', '').strip()
+                                print(f"Rates for {bank}: Buy='{buy_text}', Sell='{sell_text}'")
+                                
+                                # Only add if both buy and sell rates are present and valid
+                                if buy_text and sell_text and buy_text != '0.00' and sell_text != '0.00':
+                                    try:
+                                        buy = float(buy_text)
+                                        sell = float(sell_text)
+                                        if buy > 0 and sell > 0:  # Additional validation
+                                            rates.append({
+                                                "bank": bank,
+                                                "buy": buy,
+                                                "sell": sell
+                                            })
+                                            print(f"Added rates for {bank}")
+                                    except ValueError as e:
+                                        print(f"Error converting rates for {bank}: {str(e)}")
+                                        continue
+            else:
+                print("Could not find the rates table after the heading")
+        else:
+            print("Could not find the main heading")
+            # Print all h2 headings for debugging
+            print("Available headings:")
+            for h2 in soup.find_all('h2'):
+                print(f"- {h2.get_text().strip()}")
         
         # Sort rates by bank name
         rates.sort(key=lambda x: x['bank'])
@@ -95,11 +97,11 @@ def scrape_rates():
         if len(rates) == 0:
             print("WARNING: No rates were found!")
             print("Available banks found:")
-            for table in tables:
-                for row in table.find_all('tr'):
-                    bank_cell = row.find('td', class_='colNombre')
-                    if bank_cell:
-                        bank = bank_cell.find('span', class_='nombre').get_text().strip()
+            if heading and heading.find_next('table'):
+                for row in heading.find_next('table').find_all('tr')[1:]:
+                    bank_link = row.find('td').find('a')
+                    if bank_link:
+                        bank = bank_link.get_text().strip()
                         if bank:
                             print(f"- {bank}")
         
