@@ -29,28 +29,39 @@ def scrape_rates():
         rates = []
         print("Looking for rates table...")
         
-        # Find all tables on the page
+        # Find the main table with bank rates
+        main_table = None
         tables = soup.find_all('table')
         print(f"Found {len(tables)} tables on the page")
         
+        # Look for the table with bank rates
         for table in tables:
-            rows = table.find_all('tr')[1:]  # Skip header row
-            print(f"Processing table with {len(rows)} rows")
+            # Check if this table has the bank rates by looking at the header
+            header_row = table.find('tr')
+            if header_row:
+                header_text = header_row.get_text().lower()
+                if 'banco' in header_text and 'compra' in header_text and 'venta' in header_text:
+                    main_table = table
+                    print("Found main rates table!")
+                    break
+        
+        if main_table:
+            rows = main_table.find_all('tr')[1:]  # Skip header row
+            print(f"Processing {len(rows)} rows in main table")
             
             for row in rows:
                 cols = row.find_all('td')
                 if len(cols) >= 3:
                     # Get bank name from the first column
-                    bank_element = cols[0].find('a')
-                    bank = bank_element.text.strip() if bank_element else cols[0].text.strip()
-                    print(f"Found bank: {bank}")
+                    bank = cols[0].get_text().strip()
+                    print(f"Found bank: '{bank}'")
                     
                     # Only process if it's one of our target banks
                     if bank in target_banks:
                         # Get buy and sell rates
-                        buy_text = cols[1].text.strip().replace('$', '').replace('=', '').strip()
-                        sell_text = cols[2].text.strip().replace('$', '').replace('=', '').strip()
-                        print(f"Rates for {bank}: Buy={buy_text}, Sell={sell_text}")
+                        buy_text = cols[1].get_text().strip().replace('$', '').replace('=', '').strip()
+                        sell_text = cols[2].get_text().strip().replace('$', '').replace('=', '').strip()
+                        print(f"Rates for {bank}: Buy='{buy_text}', Sell='{sell_text}'")
                         
                         # Only add if both buy and sell rates are present and valid
                         if buy_text and sell_text and buy_text != '0.00' and sell_text != '0.00':
@@ -67,6 +78,12 @@ def scrape_rates():
                             except ValueError as e:
                                 print(f"Error converting rates for {bank}: {str(e)}")
                                 continue
+        else:
+            print("Could not find the main rates table!")
+            # Print the HTML of the first table for debugging
+            if tables:
+                print("First table HTML:")
+                print(tables[0].prettify())
         
         # Sort rates by bank name
         rates.sort(key=lambda x: x['bank'])
@@ -87,6 +104,15 @@ def scrape_rates():
         print(f"Successfully updated rates. Found {len(rates)} banks.")
         if len(rates) == 0:
             print("WARNING: No rates were found!")
+            print("Available banks found:")
+            for table in tables:
+                rows = table.find_all('tr')[1:]
+                for row in rows:
+                    cols = row.find_all('td')
+                    if len(cols) >= 1:
+                        bank = cols[0].get_text().strip()
+                        if bank:
+                            print(f"- {bank}")
         
     except Exception as e:
         print(f"Error scraping rates: {str(e)}")
