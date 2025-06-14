@@ -49,6 +49,14 @@
       font-size: 0.9em;
       color: #777;
     }
+    .error-message {
+      text-align: center;
+      color: #e74c3c;
+      margin: 20px 0;
+      padding: 10px;
+      background: #fde8e8;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -93,19 +101,27 @@
         const tbody = document.querySelector("#exchangeRates tbody");
         tbody.innerHTML = "";
 
-        data.rates.forEach(rate => {
-          const row = `<tr>
-            <td>${rate.bank}</td>
-            <td>${rate.buy.toFixed(2)}</td>
-            <td>${rate.sell.toFixed(2)}</td>
-          </tr>`;
-          tbody.innerHTML += row;
-        });
+        if (data.rates && data.rates.length > 0) {
+          data.rates.forEach(rate => {
+            const row = `<tr>
+              <td>${rate.bank}</td>
+              <td>${rate.buy.toFixed(2)}</td>
+              <td>${rate.sell.toFixed(2)}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+          });
 
-        document.getElementById("lastUpdated").textContent =
-          "Last updated: " + new Date(data.timestamp).toLocaleString();
+          document.getElementById("lastUpdated").textContent =
+            "Last updated: " + data.last_updated;
+        } else {
+          tbody.innerHTML = `<tr><td colspan="3" class="error-message">No rates available at the moment. Please try again later.</td></tr>`;
+          document.getElementById("lastUpdated").textContent = "Last updated: --";
+        }
       } catch (error) {
         console.error("Failed to fetch rates:", error);
+        const tbody = document.querySelector("#exchangeRates tbody");
+        tbody.innerHTML = `<tr><td colspan="3" class="error-message">Failed to load rates. Please try again later.</td></tr>`;
+        document.getElementById("lastUpdated").textContent = "Last updated: --";
       }
     }
 
