@@ -1,0 +1,130 @@
+{
+  "last_updated": "2025-06-14 19:48:35",
+  "rates": [
+    {
+      "bank": "Banreservas",
+      "buy": 58.85,
+      "sell": 59.39
+    },
+    {
+      "bank": "Banco Popular",
+      "buy": 58.62,
+      "sell": 58.96
+    },
+    {
+      "bank": "Banco BHD",
+      "buy": 58.63,
+      "sell": 59.06
+    },
+    {
+      "bank": "Banco Caribe",
+      "buy": 58.63,
+      "sell": 59.04
+    },
+    {
+      "bank": "Banco Vimenca",
+      "buy": 58.69,
+      "sell": 59.01
+    },
+    {
+      "bank": "Banco Lafise",
+      "buy": 58.79,
+      "sell": 59.35
+    },
+    {
+      "bank": "Banesco",
+      "buy": 58.73,
+      "sell": 59.08
+    },
+    {
+      "bank": "Banco Uni\u00f3n",
+      "buy": 58.72,
+      "sell": 59.28
+    },
+    {
+      "bank": "Motor Cr\u00e9dito",
+      "buy": 58.81,
+      "sell": 59.14
+    },
+    {
+      "bank": "Asociaci\u00f3n Cibao",
+      "buy": 58.9,
+      "sell": 59.38
+    },
+    {
+      "bank": "Asociaci\u00f3n La Nacional",
+      "buy": 58.74,
+      "sell": 59.06
+    },
+    {
+      "bank": "Asociaci\u00f3n Duarte",
+      "buy": 58.67,
+      "sell": 59.09
+    },
+    {
+      "bank": "Asociaci\u00f3n Popular",
+      "buy": 58.72,
+      "sell": 59.29
+    },
+    {
+      "bank": "Asociaci\u00f3n Peravia",
+      "buy": 58.81,
+      "sell": 59.35
+    },
+    {
+      "bank": "Asociaci\u00f3n Mocana",
+      "buy": 58.69,
+      "sell": 59.05
+    },
+    {
+      "bank": "Asociaci\u00f3n Romana",
+      "buy": 58.99,
+      "sell": 59.48
+    },
+    {
+      "bank": "Capla",
+      "buy": 58.65,
+      "sell": 59.2
+    },
+    {
+      "bank": "Moneycorps",
+      "buy": 58.55,
+      "sell": 58.87
+    },
+    {
+      "bank": "Panora Exchange",
+      "buy": 58.52,
+      "sell": 59.08
+    },
+    {
+      "bank": "Bonanza Banco",
+      "buy": 58.67,
+      "sell": 59.26
+    },
+    {
+      "bank": "Girosol",
+      "buy": 58.95,
+      "sell": 59.3
+    },
+    {
+      "bank": "SCT",
+      "buy": 58.55,
+      "sell": 58.99
+    },
+    {
+      "bank": "RM",
+      "buy": 58.76,
+      "sell": 59.18
+    },
+    {
+      "bank": "Taveras",
+      "buy": 58.54,
+      "sell": 59.05
+    },
+    {
+      "bank": "Cambio Extranjero",
+      "buy": 58.73,
+      "sell": 59.1
+    }
+  ]
+}

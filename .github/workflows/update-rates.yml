@@ -1,0 +1,32 @@
+name: Update Exchange Rates
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # Runs at 12:00 UTC (8:00 AM Dominican Republic time)
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  update-rates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
+          
+      - name: Run scraper
+        run: python scraper.py
+        
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add rates.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update exchange rates" && git push) 

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>USD to DOP Exchange Rates</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    .rate-table {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background-color: #2c3e50;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .timestamp {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9em;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>USD to DOP Exchange Rates</h1>
+    <p>Live rates from Dominican banks</p>
+  </header>
+
+  <div class="rate-table">
+    <table id="exchangeRates">
+      <thead>
+        <tr>
+          <th>Bank</th>
+          <th>Buy Rate (DOP)</th>
+          <th>Sell Rate (DOP)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="timestamp" id="lastUpdated">
+    Last updated: --
+  </div>
+
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeZWJwLPDuXQxkQVGlWBkHFF6hNOfJ5tgUXrNCAjsmTXXZswA/viewform?usp=sharing&ouid=102650333692940378225" 
+       target="_blank" 
+       style="display: inline-block; padding: 12px 24px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">
+      📬 Subscribe to Our Newsletter
+    </a>
+  </div>
+
+  <script>
+    async function fetchRates() {
+      try {
+        const response = await fetch('rates.json');
+        const data = await response.json();
+
+        const tbody = document.querySelector("#exchangeRates tbody");
+        tbody.innerHTML = "";
+
+        data.rates.forEach(rate => {
+          const row = `<tr>
+            <td>${rate.bank}</td>
+            <td>${rate.buy.toFixed(2)}</td>
+            <td>${rate.sell.toFixed(2)}</td>
+          </tr>`;
+          tbody.innerHTML += row;
+        });
+
+        document.getElementById("lastUpdated").textContent =
+          "Last updated: " + new Date(data.timestamp).toLocaleString();
+      } catch (error) {
+        console.error("Failed to fetch rates:", error);
+      }
+    }
+
+    fetchRates();
+    setInterval(fetchRates, 5 * 60 * 1000); // Refresh every 5 minutes
+  </script>
+</body>
+</html>
