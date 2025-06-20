@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-06-19 09:41:20",
+  "last_updated": "2025-06-20 09:38:35",
   "rates": [
     {
       "bank": "Banco BHD",
@@ -23,8 +23,8 @@
     },
     {
       "bank": "Banco Vimenca",
-      "buy": 58.5,
-      "sell": 60.25
+      "buy": 58.75,
+      "sell": 60.5
     },
     {
       "bank": "Banreservas",
