@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-07-21 08:31:33",
+  "last_updated": "2025-07-22 08:31:04",
   "rates": [
     {
       "bank": "Banco BHD",
@@ -28,8 +28,8 @@
     },
     {
       "bank": "Banreservas",
-      "buy": 59.0,
-      "sell": 60.85
+      "buy": 59.1,
+      "sell": 60.95
     }
   ]
 }
