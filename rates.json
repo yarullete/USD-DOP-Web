@@ -1,10 +1,10 @@
 {
-  "last_updated": "2025-07-25 08:30:04",
+  "last_updated": "2025-07-26 08:27:52",
   "rates": [
     {
       "bank": "Banco BHD",
-      "buy": 58.4,
-      "sell": 61.1
+      "buy": 58.5,
+      "sell": 61.2
     },
     {
       "bank": "Banco Caribe",
@@ -13,13 +13,13 @@
     },
     {
       "bank": "Banco Lafise",
-      "buy": 59.1,
-      "sell": 61.1
+      "buy": 59.2,
+      "sell": 61.2
     },
     {
       "bank": "Banco Popular",
-      "buy": 58.15,
-      "sell": 61.1
+      "buy": 58.25,
+      "sell": 61.2
     },
     {
       "bank": "Banco Vimenca",
@@ -28,8 +28,8 @@
     },
     {
       "bank": "Banreservas",
-      "buy": 59.05,
-      "sell": 61.05
+      "buy": 59.15,
+      "sell": 61.15
     }
   ]
 }
