@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-09-16 08:28:36",
+  "last_updated": "2025-09-17 08:27:41",
   "rates": [
     {
       "bank": "Banco BHD",
@@ -8,7 +8,7 @@
     },
     {
       "bank": "Banco Caribe",
-      "buy": 61.6,
+      "buy": 61.0,
       "sell": 62.9
     },
     {
@@ -24,12 +24,12 @@
     {
       "bank": "Banco Vimenca",
       "buy": 60.6,
-      "sell": 63.4
+      "sell": 63.3
     },
     {
       "bank": "Banreservas",
-      "buy": 61.6,
-      "sell": 63.6
+      "buy": 61.4,
+      "sell": 63.4
     }
   ]
 }
