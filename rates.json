@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-09-26 08:27:26",
+  "last_updated": "2025-09-27 08:23:53",
   "rates": [
     {
       "bank": "Banco BHD",
@@ -18,8 +18,8 @@
     },
     {
       "bank": "Banco Popular",
-      "buy": 60.7,
-      "sell": 62.7
+      "buy": 60.9,
+      "sell": 62.9
     },
     {
       "bank": "Banco Vimenca",
