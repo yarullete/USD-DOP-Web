@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-10-03 08:27:13",
+  "last_updated": "2025-10-04 08:23:46",
   "rates": [
     {
       "bank": "Banco BHD",
@@ -13,8 +13,8 @@
     },
     {
       "bank": "Banco Lafise",
-      "buy": 62.1,
-      "sell": 63.1
+      "buy": 61.0,
+      "sell": 63.0
     },
     {
       "bank": "Banco Popular",
