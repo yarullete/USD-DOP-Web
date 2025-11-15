@@ -1,9 +1,9 @@
 {
-  "last_updated": "2025-11-14 08:29:44",
+  "last_updated": "2025-11-15 08:25:37",
   "rates": [
     {
       "bank": "Banco BHD",
-      "buy": 62.55,
+      "buy": 62.4,
       "sell": 64.6
     },
     {
@@ -20,6 +20,11 @@
       "bank": "Banco Popular",
       "buy": 62.2,
       "sell": 64.6
+    },
+    {
+      "bank": "Banco Vimenca",
+      "buy": 63.0,
+      "sell": 64.4
     },
     {
       "bank": "Banreservas",
