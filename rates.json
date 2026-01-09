@@ -1,10 +1,10 @@
 {
-  "last_updated": "2026-01-08 08:33:33",
+  "last_updated": "2026-01-09 08:32:38",
   "rates": [
     {
       "bank": "Banco BHD",
-      "buy": 62.05,
-      "sell": 64.25
+      "buy": 62.1,
+      "sell": 64.3
     },
     {
       "bank": "Banco Caribe",
@@ -13,8 +13,8 @@
     },
     {
       "bank": "Banco Lafise",
-      "buy": 62.1,
-      "sell": 64.25
+      "buy": 62.15,
+      "sell": 64.3
     },
     {
       "bank": "Banco Popular",
