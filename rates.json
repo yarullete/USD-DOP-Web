@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-06 13:43:49",
+  "last_updated": "2026-10-07 14:15:49",
   "rates": [
     {
       "bank": "Banco BHD",
@@ -13,8 +13,8 @@
     },
     {
       "bank": "Banreservas",
-      "buy": 57.85,
-      "sell": 61.35
+      "buy": 58.3,
+      "sell": 61.8
     }
   ]
 }
